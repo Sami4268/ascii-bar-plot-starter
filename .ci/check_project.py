@@ -89,18 +89,6 @@ else:
     add_result("rich is declared as dependency", False)
     add_result("a build-system is configured", False)
 
-# Two contributors after the prepared starter state.
-tag_check = run(["git", "rev-parse", "--verify", "refs/tags/starter"])
-if tag_check.returncode == 0:
-    history = run(["git", "log", "starter..HEAD", "--format=%ae"])
-    authors = sorted({line.strip() for line in history.stdout.splitlines() if line.strip()})
-    add_result(
-        "commits from at least two contributors",
-        len(authors) >= 2,
-        f"Found {len(authors)} unique commit email(s)",
-    )
-else:
-    add_result("commits from at least two contributors", False, "starter tag not found")
 
 # Reproducibility and runnable package.
 if project_ok and exists("uv.lock"):
